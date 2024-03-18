@@ -72,8 +72,39 @@ class Mafia {
           // Given the traits of each member and output 
           // the leftmost and rightmost index of member
           // can be attacked by each member.
-        
-        return ???; 
+        long start = System.nanoTime();
+
+        int amount = levels.length;
+        int last_bigger_index[] = new int[amount];
+        int answer[] = new int[2*amount];
+        int index = 0;
+        for(int i = 0;i < amount;i++){
+            int min_index = Math.max( last_bigger_index[i] ,Math.max(0, i-ranges[i]));
+            // int min_index = Math.max(0, i-ranges[i]);
+            int max_index = Math.min(amount-1,i+ranges[i]);
+            for(int j = min_index;j < i ;j++){
+                if(levels[j] >= levels[i]){
+                    min_index = j+1;
+                }
+            }
+            for(int j = max_index; j > i ;j--){
+
+                if(levels[j] >= levels[i]){
+                    max_index = j-1;
+                }
+                else{
+                    last_bigger_index[j] = i;
+                }
+            }
+            answer[index] = min_index;
+            answer[index+1] = max_index;
+            index = index + 2;
+         }
+        // ...
+        long finish = System.nanoTime();
+        long timeElapsed = finish - start;
+        System.out.println(timeElapsed);
+        return answer; 
         // complete the code by returning an int[]
         // flatten the results since we only need an 1-dimentional array.
     }
@@ -85,5 +116,8 @@ class Mafia {
                          new int[] { 1,  8,  1, 7,  2})));
         // Output: [0, 0, 0, 3, 2, 3, 3, 3, 2, 4]
         //      => [a0, b0, a1, b1, a2, b2, a3, b3, a4, b4]
+        test new_test = new test(args);
+        // new_test.test(args);
+
     }
 }
