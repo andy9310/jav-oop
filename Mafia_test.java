@@ -40,10 +40,9 @@ class test{
                         }else {
                             wa++;
                             System.out.println(i);
-                            System.out.println(arg_ans.size()-1);
                             System.out.println(Answer_W[i]);
                             System.out.println(Answer[i]);
-                            System.out.println(Answer_W[i+1]);
+                          
                             System.out.println(q_cnt+": WA");
                             break;
                         }
@@ -81,34 +80,53 @@ class Mafia {
 
         int amount = levels.length;
         int last_bigger_index[] = new int[amount];
+        int hit_table[] = new int[amount];
         int answer[] = new int[2*amount];
         int index = 0;
         for(int i = 0;i < amount;i++){
             int min_index = Math.max( last_bigger_index[i] ,Math.max(0, i-ranges[i]));
             // int min_index = Math.max(0, i-ranges[i]);
             int max_index = Math.min(amount-1,i+ranges[i]);
+            if(hit_table[i] == 0){
+                for(int j = i-1; j >= min_index ;j--){
+
+                    if(levels[i] <= levels[j]){
+                        min_index = j+1;
+                        break;
+                    }
+                    
+                }
+            }
+            else{
+                for(int j = min_index-1; j >= Math.max(0, i-ranges[i]) ;j--){
+
+                    if(levels[i] <= levels[j]){
+                        min_index = j+1;
+                        break;
+                    }
+                    
+                }
+            }
             for(int j = i+1;j <= max_index ;j++){
                 if(levels[i] < levels[j]){
                     max_index = j-1;
+                    if(hit_table[j] == 0){
+                        last_bigger_index[j] = min_index;
+                        hit_table[j] = 1;
+                    }
                     break;
                 }
                 else if(levels[i] == levels[j]){
                     max_index = j-1;
-                    last_bigger_index[j] = i+1;
+                    if(hit_table[j] == 0){
+                        last_bigger_index[j] = i+1;
+                        hit_table[j] = 1;
+                    }
                     break;
                 }
-                else{
-                    last_bigger_index[j] = i+1;
-                }
-            }
-            // for(int j = i-1; j >= min_index ;j--){
-
-            //     if(levels[i] <= levels[j]){
-            //         min_index = j+1;
-            //         break;
-            //     }
                 
-            // }
+            }
+            
             answer[index] = min_index;
             answer[index+1] = max_index;
             index = index + 2;
