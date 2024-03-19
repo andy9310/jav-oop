@@ -39,6 +39,11 @@ class test{
                             }
                         }else {
                             wa++;
+                            System.out.println(i);
+                            System.out.println(arg_ans.size()-1);
+                            System.out.println(Answer_W[i]);
+                            System.out.println(Answer[i]);
+                            System.out.println(Answer_W[i+1]);
                             System.out.println(q_cnt+": WA");
                             break;
                         }
@@ -72,7 +77,7 @@ class Mafia {
           // Given the traits of each member and output 
           // the leftmost and rightmost index of member
           // can be attacked by each member.
-        long start = System.nanoTime();
+        
 
         int amount = levels.length;
         int last_bigger_index[] = new int[amount];
@@ -82,28 +87,33 @@ class Mafia {
             int min_index = Math.max( last_bigger_index[i] ,Math.max(0, i-ranges[i]));
             // int min_index = Math.max(0, i-ranges[i]);
             int max_index = Math.min(amount-1,i+ranges[i]);
-            for(int j = min_index;j < i ;j++){
-                if(levels[j] >= levels[i]){
-                    min_index = j+1;
-                }
-            }
-            for(int j = max_index; j > i ;j--){
-
-                if(levels[j] >= levels[i]){
+            for(int j = i+1;j <= max_index ;j++){
+                if(levels[i] < levels[j]){
                     max_index = j-1;
+                    break;
+                }
+                else if(levels[i] == levels[j]){
+                    max_index = j-1;
+                    last_bigger_index[j] = i+1;
+                    break;
                 }
                 else{
-                    last_bigger_index[j] = i;
+                    last_bigger_index[j] = i+1;
                 }
             }
+            // for(int j = i-1; j >= min_index ;j--){
+
+            //     if(levels[i] <= levels[j]){
+            //         min_index = j+1;
+            //         break;
+            //     }
+                
+            // }
             answer[index] = min_index;
             answer[index+1] = max_index;
             index = index + 2;
          }
         // ...
-        long finish = System.nanoTime();
-        long timeElapsed = finish - start;
-        System.out.println(timeElapsed);
         return answer; 
         // complete the code by returning an int[]
         // flatten the results since we only need an 1-dimentional array.
