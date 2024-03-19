@@ -86,3 +86,8 @@ Case:
 
 [algs4.jar library](https://algs4.cs.princeton.edu/code/algs4.jar)
 [gson.jar library](https://drive.google.com/file/d/1gUhlPLTc4EA8P-R_qf3a4uynCQeR0TgH/view?usp=drive_link)
+
+
+### Test command
+javac Mafia_test.java
+java Mafia ./Mafia.json
